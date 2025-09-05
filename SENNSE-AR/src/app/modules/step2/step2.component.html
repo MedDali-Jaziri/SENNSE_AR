@@ -1,0 +1,47 @@
+<!-- step2.component.html -->
+<section class="step-content" [class.active]="workflow.currentStep === 2">
+    <h2>QR Code Generation</h2>
+    <p>Generate or upload QR code for your configuration</p>
+
+
+    <div class="qr-options">
+        <div class="qr-option">
+            <h3>Generate QR Code</h3>
+            <div class="form-group">
+                <label for="qr-text">QR Code ID/Text:</label>
+                <input type="text" id="qr-text" [(ngModel)]="workflow.qrText" class="form-control"
+                    placeholder="Enter QR code content">
+            </div>
+        </div>
+
+        <div class="qr-option">
+            <h3>Upload QR Code Image</h3>
+            <div class="form-group">
+                <input type="file" id="qr-upload" accept="image/*" class="form-control"
+                    (change)="handleFileUpload($event)">
+            </div>
+        </div>
+    </div>
+    <div class="generateQR">
+        <button class="btn btn-secondary" (click)="generateQR()" [disabled]="!workflow.qrText.trim() || !logoFile">
+            Generate QR Code
+        </button>
+
+    </div>
+
+    <div class="qr-preview" *ngIf="hasQRCode">
+        <h3>QR Code Preview</h3>
+        <div class="qr-display">
+            <img *ngIf="qrImageFromApi" [src]="qrImageFromApi" alt="Generated QR Code with Logo">
+        </div>
+        <div class="qr-actions">
+            <button class="btn btn-secondary" (click)="downloadQR()">Download QR Code</button>
+        </div>
+    </div>
+
+
+    <div class="step-actions">
+        <button class="btn btn-outline" (click)="workflow.previousStep()">Back</button>
+        <button class="btn btn-primary" [disabled]="!hasQRCode" (click)="workflow.nextStep()">Next</button>
+    </div>
+</section>

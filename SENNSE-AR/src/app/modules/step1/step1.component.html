@@ -1,0 +1,42 @@
+<section class="step-content" [class.active]="workflow.currentStep === 1">
+    <h2>SENNSE Interfacing</h2>
+    <p>Select your board/device and configure sensors</p>
+
+    <div class="form-group">
+        <label for="board-select">Select Board/Device:</label>
+        <select id="board-select" [(ngModel)]="workflow.selectedBoard" (change)="boardChanged()" class="form-control">
+            <option value="">Choose a board...</option>
+            <option *ngFor="let board of this.workflow.boards" [value]="board.id">
+                {{ board.boardName }}
+            </option>
+        </select>
+    </div>
+
+    <div class="sensors-section" *ngIf="workflow.selectedBoard">
+        <h3>Available Sensors</h3>
+        <div class="sensors-grid">
+            <div *ngFor="let sensor of availableSensors" class="sensor-card" [class.selected]="isSelected(sensor)"
+                (click)="toggleSensor(sensor)">
+                <h4>{{ sensor.sensorName }}</h4>
+                <p>{{ sensor.sensorDescription }}</p>
+            </div>
+        </div>
+
+        <div class="selected-sensors">
+            <h3>Selected Sensors</h3>
+            <div class="selected-list">
+                <div *ngFor="let sensor of workflow.selectedSensors" class="sensor-tag">
+                    {{ sensor.sensorName }}
+                    <span class="remove" (click)="removeSensor(sensor)">&times;</span>
+                </div>
+                <p *ngIf="!workflow.selectedSensors.length" class="no-sensors">No sensors selected</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="step-actions">
+        <button class="btn btn-primary" [disabled]="!workflow.selectedSensors.length" (click)="workflow.nextStep()">
+            Next
+        </button>
+    </div>
+</section>

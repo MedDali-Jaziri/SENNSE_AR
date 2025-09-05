@@ -1,0 +1,24 @@
+import { CompilerBase } from './compiler-base.js';
+import { CompilerWorker } from './compiler.worker.js';
+import { createCanvas } from 'canvas'; // ✅ Node.js-compatible canvas
+
+export class Compiler extends CompilerBase {
+  createProcessCanvas(img) {
+    const processCanvas = createCanvas(img.width, img.height); // ✅ Replaces document.createElement
+    return processCanvas;
+  }
+
+  compileTrack({ progressCallback, targetImages, basePercent }) {
+    return new Promise((resolve, reject) => {
+      const worker = new CompilerWorker();
+      worker.onmessage = (e) => {
+        if (e.data.type === 'progress') {
+          progressCallback(basePercent + (e.data.percent * basePercent / 100));
+        } else if (e.data.type === 'compileDone') {
+          resolve(e.data.list);
+        }
+      };
+      worker.postMessage({ type: 'compile', targetImages });
+    });
+  }
+}

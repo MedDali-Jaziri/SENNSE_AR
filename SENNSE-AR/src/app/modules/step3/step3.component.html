@@ -1,0 +1,66 @@
+<!-- step3.component.html -->
+<section class="step-content" [class.active]="workflow.currentStep === 3">
+    <h2>Target File Creation</h2>
+    <p>Select sensors for target file generation</p>
+
+    <div class="sensors-review">
+        <h3>Available Sensors from Configuration</h3>
+        <div class="sensors-checklist">
+            <div *ngFor="let sensor of workflow.selectedSensors" class="sensor-checkbox"
+                [class.checked]="isSelected(sensor)">
+                <input type="checkbox" [id]="'target-'+sensor.sensorName" [checked]="isSelected(sensor)"
+                    (change)="toggleSensor(sensor)">
+                <label [for]="'target-'+sensor.sensorName">{{ sensor.sensorName }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="target-preview">
+        <h3>Target File Preview</h3>
+        <textarea id="target-content" class="target-textarea" readonly>{{ targetContent }}</textarea>
+    </div>
+
+    <div class="step-actions">
+        <button class="btn btn-outline" (click)="workflow.previousStep()">Back</button>
+        <button class="btn btn-success" (click)="openOverviewModal()">Finish & Complete</button>
+    </div>
+
+</section>
+<div class="modal-overlay" *ngIf="showOverviewModal">
+    <div class="modal-content">
+        <h2>Configuration Summary</h2>
+
+        <div class="form-group">
+            <label for="project-name">Project Name</label>
+            <input id="project-name" class="form-control" [(ngModel)]="projectName" placeholder="Enter project name"
+                [class.input-error]="showProjectNameError && !projectName.trim()" /> <br>
+            <span *ngIf="projectName && !isProjectNameValid()" class="error-text">
+                Only letters, numbers, _ and - are allowed. No spaces or special characters.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="project-description">Project Description</label>
+            <input id="project-description" class="form-control" [(ngModel)]="projectDescription"
+                placeholder="Enter project description"
+                [class.input-error]="showProjectDescriptionError && !projectDescription.trim()" /> <br>
+        </div>
+
+        <div class="summary-section">
+            <p><strong>Board:</strong> {{ getSelectedBoardName() }}</p>
+
+            <p><strong>Total Sensors:</strong> {{ selectedSensors.length }}</p>
+            <p><strong>QR Code:</strong> {{ workflow.qrCode ? 'Generated' : 'Not generated' }}</p>
+        </div>
+
+        <textarea class="target-textarea" readonly>{{ targetContent }}</textarea>
+
+        <div class="modal-actions">
+            <button class="btn btn-outline" (click)="showOverviewModal = false">Cancel</button>
+            <button class="btn btn-success" (click)="downloadFinalTargetFile()"
+                [disabled]="!projectName.trim() || !projectDescription.trim() || !isProjectNameValid()">
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>

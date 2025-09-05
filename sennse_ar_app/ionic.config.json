@@ -1,0 +1,7 @@
+{
+  "name": "sennse_ar_app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

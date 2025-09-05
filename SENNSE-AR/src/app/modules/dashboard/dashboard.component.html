@@ -1,0 +1,130 @@
+<div class="dashboard-container">
+    <header class="dashboard-header">
+        <h1 class="dashboard-title">AR Dashboard</h1>
+        <p class="dashboard-subtitle">Select a room or create a new one</p>
+    </header>
+
+    <main class="dashboard-main">
+        <section class="rooms-section">
+            <h2 class="section-title">Available Rooms</h2>
+
+            <div class="rooms-grid">
+                <div class="room-card" *ngFor="let room of rooms" [class.hovered]="hoveredCard === room.projectName"
+                    (mouseenter)="hoveredCard = room.projectName" (mouseleave)="hoveredCard = null"
+                    (click)="handleRoomClick(room)">
+
+                    <div class="room-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+                                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M9 22V12H15V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                strokeLinejoin="round" />
+                        </svg>
+
+                    </div>
+
+                    <h3 class="room-title">{{ room.projectName }}</h3>
+                    <p class="room-description">{{ room.projectDescription }}</p>
+                    <div class="room-status online">Online</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="create-section">
+            <div class="create-room-card">
+                <button class="create-room-btn" (click)="handleCreateRoom()">
+                    <div class="create-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                strokeLinejoin="round" />
+                            <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                strokeLinejoin="round" />
+                        </svg>
+                    </div>
+                    <span>Create New Room</span>
+                </button>
+            </div>
+
+            <br>
+
+            <div class="create-room-card">
+                <button class="create-room-btn" (click)="toggleQRTable()" [class.active]="showQRTable">
+                    <div class="create-icon">
+                        <div class="qr-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="3" width="5" height="5" stroke="currentColor" strokeWidth="2" />
+                                <rect x="16" y="3" width="5" height="5" stroke="currentColor" strokeWidth="2" />
+                                <rect x="3" y="16" width="5" height="5" stroke="currentColor" strokeWidth="2" />
+                                <rect x="5" y="5" width="1" height="1" fill="currentColor" />
+                                <rect x="18" y="5" width="1" height="1" fill="currentColor" />
+                                <rect x="5" y="18" width="1" height="1" fill="currentColor" />
+                                <rect x="11" y="11" width="2" height="2" fill="currentColor" />
+                                <rect x="16" y="16" width="5" height="5" stroke="currentColor" strokeWidth="2" />
+                                <rect x="18" y="18" width="1" height="1" fill="currentColor" />
+                            </svg>
+                        </div>
+                    </div>
+                    <span>{{ showQRTable ? 'Hide QR Codes' : 'Show QR Codes' }}</span>
+                </button>
+            </div>
+        </section>
+
+        <br>
+
+        <section class="qr-section">
+            <div class="qr-table-container" [class.visible]="showQRTable">
+                <div class="qr-table-wrapper">
+                    <h2 class="section-title">QR Code Management</h2>
+                    <table class="qr-table">
+                        <thead>
+                            <tr>
+                                <th>QR Code</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let qr of qrCodeList; let i = index">
+                                <td class="qr-preview">
+                                    <img [src]="baseUrl + qr.url_QR" [alt]="qr.qr_identifier" class="qr-image">
+                                </td>
+                                <td class="qr-name">{{ qr.qr_identifier }}</td>
+                                <td class="qr-actions">
+                                    <button class="download-btn" (click)="downloadQR(qr, i)"
+                                        [disabled]="qr.downloading">
+                                        <svg *ngIf="!qr.downloading" viewBox="0 0 24 24" fill="none">
+                                            <path
+                                                d="M21 15V19C21 19.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V15"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <polyline points="8,11 12,15 16,11" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <div *ngIf="qr.downloading" class="spinner"></div>
+                                        {{ qr.downloading ? 'Downloading...' : 'Download' }}
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="ar-overlay">
+        <div class="ar-grid"></div>
+        <div class="ar-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
+</div>
