@@ -53,6 +53,9 @@ The platform is composed of **four main microservices**, each with its own respo
 
 ## 🖼️ System Architecture
 
+<p align="center">
+  <img src="./Docs/SENNSE-AR_Architecture.png" alt="SENNSE-AR Architecture"/>
+</p>
 
 ## 🔑 Key Features
 - Immersive AR Exploration for cultural heritage sites.
