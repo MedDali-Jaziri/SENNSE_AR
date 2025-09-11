@@ -1,59 +1,101 @@
-# SENNSEAR
+# SENNSE-AR Angular Microservice
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.5.
+This repository contains the **SENNSE-AR Angular microservice**, which provides the **web interface** for the SENNSE-AR platform.  
+It allows users to interact with AR features and communicates with backend microservices (Spring Boot, Express.js) to deliver a seamless experience.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🎯 Objective
 
+This README explains how the Angular microservice is structured, how it works, and how you can run or extend it if you would like to improve functionality.  
+
+The frontend is built with **Angular** and follows a modular architecture, making the application easy to maintain and scale.
+
+---
+
+## 📂 Project Structure
+
+The project is organized into the following key directories:
+
+### 1. **`environment/`**
+- Contains TypeScript files that define **environment variables**.  
+- Provides two configurations:
+  - `environment.ts` → for development.  
+  - `environment.prod.ts` → for production.  
+- These files define API URLs and other constants used during requests.  
+- This separation allows easy switching between development and production without code changes.
+
+---
+
+### 2. **`app/model/`**
+- Contains **model interfaces** that represent the data structures used throughout the application.  
+- In Angular, creating models helps:
+  - Provide **type safety** when handling data.  
+  - Improve maintainability by centralizing object definitions.  
+  - Prevent errors by making sure data conforms to expected structures.  
+- Example: An `Sensor` interface that defines fields such as `sensorId`, `sensorName`, and `sensorDescription`.
+
+---
+
+### 3. **`app/modules/`**
+- Contains all **components** of the web application.  
+- Components are the **building blocks** of Angular applications.  
+- Each component typically includes:
+  - A **TypeScript file** for logic.  
+  - An **HTML template** for structure.  
+  - A **CSS/SCSS file** for styling.  
+- Example:  
+  - `NewRoomComponent.ts` → Handles the creation of the rooms.  
+  - `RoomDetailComponent.html` → Displays AR content and room details.  
+---
+
+### 4. **`app/service/`**
+- Contains the **business logic layer** for the Angular application.
+- Responsible for communication with backend microservices (Spring Boot, Express.js).
+- Services typically:
+  - Handle **HTTP requests** using Angular’s `HttpClient`  
+  - Provide reusable logic across components. 
+---
+
+## ▶️ Running the Application
+
+### Prerequisites
+- [Node.js 18+](https://nodejs.org/)  
+- [Angular CLI](https://angular.io/cli)  
+
+### Run Locally
 ```bash
+# Clone repository
+git clone https://github.com/MedDali-Jaziri/SENNSE_AR.git
+cd SENNSE-AR/SENNSE-AR
+
+# Install dependencies
+npm install
+
+# Run development server
 ng serve
 ```
+#### Application will be available at:  👉 http://localhost:4200
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+### Build for Production
+``` bash
+ng build --configuration production
 ```
+---
+## Future Improvement
+- Add lazy loading for improved performance on larger apps.
+- Integrate state management(e.g., NgRx) for better handling of complex data flows.
+- Enhance error handling for backend communication.
+- Improve test coverage with Jasmine/karma.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 🤝 Contribution
 
-## Building
+We welcome contributions!
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature-name`).
+3. Commit changes (`git commit -m 'Add feature'`).
+4. Push to your fork (`git push origin feature-name`).
+5. Open a Pull Request.
