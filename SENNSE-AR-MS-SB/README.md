@@ -95,8 +95,8 @@ The project is organized into several main packages, each with its own responsib
 ### Run Locally
 ```bash
 # Clone repository
-git clone https://github.com/your-org/SENNSE-AR-MS-SB.git
-cd SENNSE-AR-MS-SB
+git https://github.com/MedDali-Jaziri/SENNSE_AR.git
+cd SENNSE_AR/SENNSE-AR-MS-SB
 
 # Build project
 mvn clean install
@@ -104,7 +104,7 @@ mvn clean install
 # Run application
 mvn spring-boot:run
 ```
-### Run Locally
+### Run Locally (Docker version)
 ```bash
 # Build the Docker Image
 Docker build -t meddali/sennse-ar-springboot:latest .
