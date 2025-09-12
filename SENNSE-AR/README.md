@@ -23,7 +23,10 @@ The project is organized into the following key directories:
   - `environment.ts` → for development.  
   - `environment.prod.ts` → for production.  
 - These files define API URLs and other constants used during requests.  
-- This separation allows easy switching between development and production without code changes.
+- This separation allows easy switching between development and production without code changes.  
+
+**🔑 Authentication Note:**  Some variables inside these files are related to the **authentication process** (e.g., backend credentials).  
+👉 You must update these variables with your own values in order to run the application successfully.
 
 ---
 
@@ -67,7 +70,7 @@ The project is organized into the following key directories:
 ```bash
 # Clone repository
 git clone https://github.com/MedDali-Jaziri/SENNSE_AR.git
-cd SENNSE-AR/SENNSE-AR
+cd SENNSE_AR/SENNSE-AR
 
 # Install dependencies
 npm install
